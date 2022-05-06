@@ -22,6 +22,21 @@ class HomeRepositoryImpl implements HomeRepository {
     return _getEntities(() => homeRemoteDatasource.getCuratedImages(page));
   }
 
+  @override
+  Future<List<ImageEntity>> getSearchedImages({
+    required int page,
+    required String query,
+    String? color,
+  }) {
+    return _getEntities(
+      () => homeRemoteDatasource.getImagesWithParams(
+        page: page,
+        query: query,
+        color: color,
+      ),
+    );
+  }
+
   Future<List<ImageEntity>> _getEntities(
       Future<List<ImageModel>> Function() getFunction) async {
     if (await networkInfo.isConnected) {

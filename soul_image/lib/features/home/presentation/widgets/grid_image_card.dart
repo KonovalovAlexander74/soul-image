@@ -2,23 +2,47 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:soul_image/core/config/themes/app_theme.dart';
 import 'package:soul_image/features/home/domain/entities/image.dart';
+import 'package:soul_image/features/home/domain/entities/image_url.dart';
+import 'package:soul_image/features/home/presentation/screens/image_details.dart';
 
-class ImageCard extends StatelessWidget {
-  const ImageCard({Key? key, required this.image}) : super(key: key);
+class GridImageCard extends StatelessWidget {
+  const GridImageCard({Key? key, required this.image, required this.size})
+      : super(key: key);
 
   final ImageEntity image;
+  final ImageSize size;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Stack(
       children: [
-        _ImageBox(
-          imageUrl: image.url.tiny,
+        Column(
+          children: [
+            Hero(
+              tag: image.url.original,
+              child: _ImageBox(
+                imageUrl: image.url.fromImageSize(size),
+              ),
+            ),
+            _ImageLabel(
+              photographer: image.photographer,
+              description: image.description,
+            ),
+          ],
         ),
-        Expanded(
-          child: _ImageLabel(
-            photographer: image.photographer,
-            description: image.description,
+        Material(
+          color: Colors.transparent,
+          child: InkWell(
+            splashColor: Colors.white24,
+            highlightColor: Colors.white12,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ImageDetailsWidget(image: image),
+                ),
+              );
+            },
           ),
         ),
       ],
@@ -36,9 +60,6 @@ class _ImageBox extends StatelessWidget {
     return SizedBox(
       height: 200,
       width: 200,
-
-      // child: Center(child: Text(imageUrl)),
-
       child: CachedNetworkImage(
         imageUrl: imageUrl,
         imageBuilder: (context, imageProvider) {
@@ -56,7 +77,9 @@ class _ImageBox extends StatelessWidget {
           );
         },
         errorWidget: (context, url, error) {
-          return const Placeholder();
+          return const Center(
+            child: Text('No data'),
+          );
         },
       ),
     );
@@ -73,17 +96,8 @@ class _ImageLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const borderSide = BorderSide(width: 0.5);
-
-    return DecoratedBox(
-      decoration: const BoxDecoration(
-        color: AppColors.specialWhiteColor,
-        border: Border(
-          bottom: borderSide,
-          left: borderSide,
-          right: borderSide,
-        ),
-      ),
+    return ColoredBox(
+      color: AppColors.specialWhiteColor,
       child: Padding(
         padding: const EdgeInsets.only(top: 5.0, left: 5.0, right: 5.0),
         child: Column(

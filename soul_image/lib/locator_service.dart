@@ -7,19 +7,28 @@ import 'package:soul_image/features/home/data/datasources/remote_datasource.dart
 import 'package:soul_image/features/home/data/repositories/home_repository_impl.dart';
 import 'package:soul_image/features/home/domain/repositories/home_repository.dart';
 import 'package:soul_image/features/home/domain/usecases/get_curated_images.dart';
+import 'package:soul_image/features/home/domain/usecases/get_serched_images.dart';
+import 'package:soul_image/features/home/presentation/state_manager/bottom_nav_bar_provider.dart';
 import 'package:soul_image/features/home/presentation/state_manager/home_page_provider.dart';
+import 'package:soul_image/features/home/presentation/state_manager/search_page_provider.dart';
 
 final locatorService = GetIt.instance;
 
 init() async {
   // Provider
-  locatorService.registerFactory(
-    () => HomeProvider(locatorService()),
-  );
+  locatorService.registerFactory(() => HomeProvider(locatorService()));
+
+  locatorService.registerFactory(() => BottomNavBarProvider());
+
+  locatorService.registerFactory(() => SearchProvider(locatorService()));
 
   // UseCases
   locatorService.registerLazySingleton(
     () => GetCuratedImagesUseCase(locatorService()),
+  );
+
+  locatorService.registerLazySingleton(
+    () => GetSearchedImages(locatorService()),
   );
 
   // Repository

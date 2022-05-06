@@ -24,5 +24,5 @@ abstract class AppTheme {
 
 abstract class AppColors {
   static const Color specialWhiteColor = Color.fromRGBO(252, 252, 252, 1);
-  static const Color bottomNavBarColor = Color.fromARGB(255, 16, 17, 16);
+  static const Color specialBlackColor = Color.fromARGB(255, 16, 17, 16);
 }

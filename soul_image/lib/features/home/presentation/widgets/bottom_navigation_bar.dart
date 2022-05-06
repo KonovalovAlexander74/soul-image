@@ -9,7 +9,8 @@ class BottomNavBar extends StatelessWidget {
     required this.items,
     required this.onTap,
     this.currentIndex = 0,
-    this.backgroundColor = AppColors.bottomNavBarColor,
+    this.height = 80,
+    this.backgroundColor = AppColors.specialBlackColor,
     this.iconSize = 28.0,
     this.selectedItemColor = AppColors.specialWhiteColor,
     this.unselectedItemColor = Colors.grey,
@@ -19,6 +20,7 @@ class BottomNavBar extends StatelessWidget {
   final List<IconData> items;
   final ValueChanged<int> onTap;
   final int currentIndex;
+  final double height;
   final Color backgroundColor;
   final double iconSize;
   final Color selectedItemColor;
@@ -27,9 +29,10 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
       width: double.infinity,
-      height: 80,
+      height: height,
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.only(

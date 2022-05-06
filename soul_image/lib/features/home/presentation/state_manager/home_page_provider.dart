@@ -7,9 +7,6 @@ class HomeProvider extends ChangeNotifier {
 
   final GetCuratedImagesUseCase _getCuratedImages;
 
-  /// index for bottom navigatoin bar
-  int _pageIndex = 0;
-
   final List<ImageEntity> images = [];
 
   int _currentPage = 1;
@@ -40,12 +37,5 @@ class HomeProvider extends ChangeNotifier {
     if (index > images.length - 2) {
       getCuratedImages();
     }
-  }
-
-  int get pageIndex => _pageIndex;
-
-  set pageIndex(int newValue) {
-    _pageIndex = newValue;
-    notifyListeners();
   }
 }
